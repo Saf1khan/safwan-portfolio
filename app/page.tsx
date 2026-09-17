@@ -1,6 +1,7 @@
 import Navbar from "@/components/ui/Navbar";
 import Hero from "@/components/ui/Hero";
 import HomeIntro from "@/components/ui/HomeIntro";
+import ProfileStory from "@/components/ui/ProfileStory";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <HomeIntro />
+      <ProfileStory />
     </main>
   );
 }

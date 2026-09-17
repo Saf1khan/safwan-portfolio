@@ -4,12 +4,12 @@ import React from "react";
 import { motion, type Variants } from "framer-motion";
 
 const primaryBio =
-  "I'm Safwan – a Full Stack Developer crafting fast, scalable, and immersive digital experiences that merge creativity with engineering precision.".split(
+  "I'm Safwan — a Full Stack Developer crafting fast, scalable, and immersive digital experiences that merge creativity with engineering precision.".split(
     " "
   );
 
 const secondaryBio =
-  "I specialize in developing production-grade web applications, interactive 3D experiences, and modern SaaS platforms using TypeScript, React, Next.js, and Node.js. Currently shipping end-to-end products as a Junior Software Engineer with the Sparklab team at IndiVillage.".split(
+  "I specialize in developing SaaS platforms, AI-driven products, and interactive 3D web experiences using technologies like Next.js, Node.js, and Three.js.".split(
     " "
   );
 
@@ -23,116 +23,201 @@ const wordAnimation: Variants = {
   },
 };
 
+const aboutLetters = "About Me".split("");
+
 export const HomeIntro = () => {
   return (
-    <section className="relative w-full bg-sec text-white z-50 pt-28 md:pt-36 pb-28 px-4 md:px-16 font-cabinet">
+    <section className="relative About-me flex flex-col items-center w-full duration-200 h-full text-white z-50 gap-[4rem] -mt-[2rem] bg-sec font-cabinet">
       {/* 
-        The Arching Curve:
-        An SVG path with vector-effect="non-scaling-stroke" creates a crisp, 100% responsive,
-        pixel-perfect convex arch rising over the light Hero section above.
+        Exact Top Curve matching DevTools extraction:
+        scale(1, 3.2751) with rounded-[50%] child
       */}
-      <div className="absolute left-0 -top-12 sm:-top-16 md:-top-24 lg:-top-32 w-full h-12 sm:h-16 md:h-24 lg:h-32 overflow-hidden pointer-events-none z-50">
-        <svg
-          viewBox="0 0 1440 120"
-          fill="none"
-          preserveAspectRatio="none"
-          className="w-full h-full block"
-        >
-          <path
-            d="M0,120 Q720,0 1440,120 L1440,120 L0,120 Z"
-            className="fill-sec"
-          />
-        </svg>
+      <div
+        className="overflow-hidden absolute left-[50%] lg:-top-[3rem] -top-[2rem] transform -translate-x-[50%] w-full about_top_curve lg:h-[4rem] h-[2rem] mb-14 z-40 pointer-events-none"
+        style={{
+          transform: "translate(-50%, 0%) translate3d(0px, 0px, 0px) scale(1, 3.2751)",
+          transformOrigin: "center top",
+        }}
+      >
+        <div className="absolute right-[-10%] rounded-[50%] h-[150%] w-[120%] bg-sec"></div>
       </div>
 
-      <div className="max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
-        {/* Primary Narrative (Large headline matching reference) */}
+      {/* Primary Headline Block with 3D Word Reveal */}
+      <div
+        className="z-[60] text-white text-xl leading-2 lg:text-4xl xl:text-5xl text-center lg:xl:mb-4 pt-10 xl:max-w-6xl lg:max-w-5xl w-full mx-auto px-4"
+        style={{ perspective: "1000px" }}
+      >
         <motion.h2
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           transition={{ staggerChildren: 0.02 }}
           style={{ perspective: "1000px" }}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium leading-tight md:leading-snug tracking-tight text-white/95 max-w-4xl"
+          className="inline"
         >
           {primaryBio.map((word, i) => (
             <span
               key={i}
-              className="inline-block overflow-hidden mr-[0.25em] pb-1 align-top"
+              className="inline-block overflow-hidden mr-[0.3em]"
               style={{
-                lineHeight: 1.15,
-                clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0% 100%)",
+                lineHeight: 1,
+                clipPath: "polygon(0px 0%, 100% 0%, 100% 100%, 0% 100%)",
               }}
             >
               <motion.span
                 variants={wordAnimation}
-                style={{ transformOrigin: "center bottom" }}
-                className="inline-block"
+                style={{
+                  transformOrigin: "center bottom",
+                  transformStyle: "preserve-3d",
+                }}
+                className="inline-block mb-[0.2rem]"
               >
                 {word}
               </motion.span>
             </span>
           ))}
         </motion.h2>
+      </div>
 
-        {/* Secondary Description Paragraph matching reference subtext */}
+      {/* Secondary Sub-paragraph Block with 3D Word Reveal */}
+      <div
+        className="text-white text-lg md:text-2xl lg:text-2xl xl:text-3xl text-center mb-1 max-w-5xl mx-auto px-4"
+        style={{ perspective: "1000px" }}
+      >
         <motion.p
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ staggerChildren: 0.012, delayChildren: 0.2 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ staggerChildren: 0.015, delayChildren: 0.15 }}
           style={{ perspective: "1000px" }}
-          className="mt-12 text-base md:text-xl font-normal leading-relaxed text-main/70 max-w-3xl"
+          className="inline"
         >
           {secondaryBio.map((word, i) => (
             <span
               key={i}
-              className="inline-block overflow-hidden mr-[0.25em] pb-0.5 align-top"
+              className="inline-block overflow-hidden mr-[0.3em]"
               style={{
-                lineHeight: 1.25,
-                clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0% 100%)",
+                lineHeight: 1,
+                clipPath: "polygon(0px 0%, 100% 0%, 100% 100%, 0% 100%)",
               }}
             >
               <motion.span
                 variants={wordAnimation}
-                style={{ transformOrigin: "center bottom" }}
-                className="inline-block"
+                style={{
+                  transformOrigin: "center bottom",
+                  transformStyle: "preserve-3d",
+                }}
+                className="inline-block mb-[0.2rem]"
               >
                 {word}
               </motion.span>
             </span>
           ))}
         </motion.p>
-
-        {/* Stats / Counters Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          className="mt-20 border-t border-main/15 pt-12 grid grid-cols-2 gap-8 md:gap-16 w-full max-w-4xl"
-        >
-          {/* Column 1 */}
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <span className="text-xs md:text-sm uppercase tracking-widest text-main/60 mb-2 font-medium">
-              Years of Experience
-            </span>
-            <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-accent">
-              1.5+
-            </span>
-          </div>
-
-          {/* Column 2 */}
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <span className="text-xs md:text-sm uppercase tracking-widest text-main/60 mb-2 font-medium">
-              Role
-            </span>
-            <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-main">
-              FULL-STACK
-            </span>
-          </div>
-        </motion.div>
       </div>
+
+      {/* 
+        Interactive 'About Me' Button matching DevTools extraction:
+        - Hover white fill expansion from left
+        - Rolling letter animation on 'About Me'
+        - Dual flying diagonal arrow animation in circular icon button
+      */}
+      <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
+        <a href="#about-me">
+          <button
+            className="relative group flex items-center justify-center cursor-pointer select-none"
+            style={{ willChange: "transform", backfaceVisibility: "hidden" }}
+          >
+            {/* Pill Container with Rolling Text */}
+            <div className="group relative inline-flex items-center justify-center gap-3 bg-accent text-black font-medium rounded-full transition-all duration-300 hover:gap-4 overflow-hidden text-lg px-8 py-5">
+              <div className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              <div className="relative z-10 overflow-hidden flex items-center h-6">
+                <div className="relative overflow-hidden inline-block cursor-pointer select-none">
+                  {/* Primary text sliding up */}
+                  <div className="flex transition-transform duration-300 group-hover:-translate-y-7">
+                    {aboutLetters.map((char, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-block whitespace-pre font-bold text-sm tracking-wider uppercase"
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </div>
+                  {/* Secondary duplicate sliding in from below */}
+                  <div className="flex absolute top-0 left-0 transition-transform duration-300 translate-y-7 group-hover:translate-y-0">
+                    {aboutLetters.map((char, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-block whitespace-pre font-bold text-sm tracking-wider uppercase"
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Circular Arrow Button with Dual Flying Arrow Transition */}
+            <div className="hidden overflow-hidden md:flex w-14 h-14 bg-accent rounded-full items-center justify-center relative ml-3">
+              <div className="absolute inset-0 delay-100 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              {/* First Arrow (flies out to top-right on hover) */}
+              <svg
+                className="w-5 h-5 text-black absolute transition-all duration-300 translate-y-0 translate-x-0 opacity-100 group-hover:-translate-y-full group-hover:translate-x-full group-hover:opacity-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.5"
+                  d="M7 17L17 7M17 7H7M17 7v10"
+                />
+              </svg>
+              {/* Second Arrow (flies in from bottom-left on hover) */}
+              <svg
+                className="w-5 h-5 text-black absolute transition-all duration-300 translate-y-full -translate-x-full opacity-0 group-hover:translate-y-0 group-hover:translate-x-0 group-hover:opacity-100"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.5"
+                  d="M7 17L17 7M17 7H7M17 7v10"
+                />
+              </svg>
+            </div>
+          </button>
+        </a>
+      </div>
+
+      {/* Sub-bar: Scroll to Explore / My Short Story */}
+      <div className="flex overflow-hidden justify-between items-center text-sm text-main px-4 w-full max-w-5xl">
+        <div className="flex items-center gap-2">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            className="w-4 h-4 animate-bounce"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+          <span>Scroll to Explore</span>
+        </div>
+        <span>My Short Story</span>
+      </div>
+
+      {/* Section Bottom Divider Line */}
+      <div className="w-full z-[9999] h-[1px] bg-main/30"></div>
     </section>
   );
 };
