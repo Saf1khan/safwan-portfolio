@@ -117,6 +117,29 @@ export const HomeIntro = () => {
       </div>
 
       {/* 
+        Stats Grid from Reference Extraction:
+        Years of Experience (1.5+ in accent) & Role (Full-Stack) with border-t border-white/10
+      */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 border-t border-white/10 pt-10 pb-4 max-w-4xl w-full mx-auto px-6">
+        <div className="flex flex-col items-center md:items-start">
+          <p className="text-xs uppercase tracking-widest text-gray-400 mb-2 font-medium">
+            Years of Experience
+          </p>
+          <div className="text-5xl md:text-7xl font-bold text-accent">
+            1.5+
+          </div>
+        </div>
+        <div className="flex flex-col items-center md:items-start">
+          <p className="text-xs uppercase tracking-widest text-gray-400 mb-2 font-medium">
+            Role
+          </p>
+          <div className="text-4xl md:text-6xl font-bold uppercase text-white">
+            Full-Stack
+          </div>
+        </div>
+      </div>
+
+      {/* 
         Interactive 'About Me' Button matching DevTools extraction:
         - Hover white fill expansion from left
         - Rolling letter animation on 'About Me'

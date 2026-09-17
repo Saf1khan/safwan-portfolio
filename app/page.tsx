@@ -1,6 +1,7 @@
 import Navbar from "@/components/ui/Navbar";
 import Hero from "@/components/ui/Hero";
 import HomeIntro from "@/components/ui/HomeIntro";
+import SlidingBars from "@/components/ui/SlidingBars";
 import ProfileStory from "@/components/ui/ProfileStory";
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <HomeIntro />
+      <SlidingBars />
       <ProfileStory />
     </main>
   );

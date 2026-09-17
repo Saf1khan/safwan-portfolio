@@ -9,6 +9,7 @@ const config: Config = {
       colors: {
         main: "#E7E7E7",
         sec: "#1E1E1E",
+        thr: "#D4F534",
         accent: "#D4F534",
       },
       fontFamily: {
