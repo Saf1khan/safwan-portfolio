@@ -4,6 +4,7 @@ import HomeIntro from "@/components/ui/HomeIntro";
 // import SlidingBars from "@/components/ui/SlidingBars";
 import ProfileStory from "@/components/ui/ProfileStory";
 import WorksSection from "@/components/ui/WorksSection";
+import ExperienceSection from "@/components/ui/ExperienceSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       {/* <SlidingBars /> */}
       <ProfileStory />
       <WorksSection />
+      <ExperienceSection />
     </main>
   );
 }
