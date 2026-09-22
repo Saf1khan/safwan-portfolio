@@ -1,7 +1,13 @@
 "use client";
 
-import React from "react";
-import { motion, type Variants } from "framer-motion";
+import React, { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  type Variants,
+} from "framer-motion";
 
 const primaryBio =
   "I'm Safwan — a Full Stack Developer crafting fast, scalable, and immersive digital experiences that merge creativity with engineering precision.".split(
@@ -26,21 +32,41 @@ const wordAnimation: Variants = {
 const aboutLetters = "About Me".split("");
 
 export const HomeIntro = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Convex top curve scroll-driven dynamics
+  // As the user scrolls from Hero down into HomeIntro, the convex dome swells upward into Hero
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  });
+
+  // Scale smoothly from gentle base curve (0.8) to deep convex dome (5.0) with fluid spring physics
+  const rawScaleY = useTransform(scrollYProgress, [0, 1], [0.8, 5.0]);
+  const smoothScaleY = useSpring(rawScaleY, { stiffness: 120, damping: 25 });
+  const curveTransform = useTransform(
+    smoothScaleY,
+    (s) => `translate(-50%, 0%) translate3d(0px, 0px, 0px) scale(1, ${s})`
+  );
+
   return (
-    <section className="relative About-me flex flex-col items-center w-full duration-200 h-full text-white z-50 gap-[4rem] -mt-[2rem] bg-sec font-cabinet">
+    <section
+      ref={sectionRef}
+      className="relative About-me flex flex-col items-center w-full duration-200 h-full text-white z-50 gap-[4rem] -mt-[2rem] bg-sec font-cabinet"
+    >
       {/* 
-        Exact Top Curve matching DevTools extraction:
-        scale(1, 3.2751) with rounded-[50%] child
+        Convex Top Curve dynamically responsive to scroll:
+        origin-bottom ensures it scales upwards into Hero as a convex dome
       */}
-      <div
-        className="overflow-hidden absolute left-[50%] lg:-top-[3rem] -top-[2rem] transform -translate-x-[50%] w-full about_top_curve lg:h-[4rem] h-[2rem] mb-14 z-40 pointer-events-none"
+      <motion.div
+        className="overflow-hidden absolute left-[50%] lg:-top-[3rem] -top-[2rem] w-full about_top_curve lg:h-[4rem] h-[2rem] mb-14 z-40 pointer-events-none origin-bottom"
         style={{
-          transform: "translate(-50%, 0%) translate3d(0px, 0px, 0px) scale(1, 3.2751)",
-          transformOrigin: "center top",
+          transform: curveTransform,
+          transformOrigin: "bottom center",
         }}
       >
         <div className="absolute right-[-10%] rounded-[50%] h-[150%] w-[120%] bg-sec"></div>
-      </div>
+      </motion.div>
 
       {/* Primary Headline Block with 3D Word Reveal */}
       <div
@@ -116,28 +142,6 @@ export const HomeIntro = () => {
         </motion.p>
       </div>
 
-      {/* 
-        Stats Grid from Reference Extraction:
-        Years of Experience (1.5+ in accent) & Role (Full-Stack) with border-t border-white/10
-      */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 border-t border-white/10 pt-10 pb-4 max-w-4xl w-full mx-auto px-6">
-        <div className="flex flex-col items-center md:items-start">
-          <p className="text-xs uppercase tracking-widest text-gray-400 mb-2 font-medium">
-            Years of Experience
-          </p>
-          <div className="text-5xl md:text-7xl font-bold text-accent">
-            1.5+
-          </div>
-        </div>
-        <div className="flex flex-col items-center md:items-start">
-          <p className="text-xs uppercase tracking-widest text-gray-400 mb-2 font-medium">
-            Role
-          </p>
-          <div className="text-4xl md:text-6xl font-bold uppercase text-white">
-            Full-Stack
-          </div>
-        </div>
-      </div>
 
       {/* 
         Interactive 'About Me' Button matching DevTools extraction:

@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring, type Variants } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  type Variants,
+} from "framer-motion";
 
 // Exact rotating Starburst SVG extracted from DevTools (Layer_2)
 const Layer2Starburst = ({ className }: { className?: string }) => (
@@ -187,13 +193,11 @@ export const ProfileStory = () => {
   // The path is an outlined ribbon with a total perimeter of 12500.4px.
   // The downward journey from top-right (2049, 7) to the bottom-left endpoint (6, 2795)
   // is precisely the first 6250.2px (50% of the path).
-  // We bind the scroll progress directly to cardSectionRef across ["start 65%", "end 25%"],
+  // We bind the scroll progress directly to containerRef across ["start 75%", "end 25%"],
   // and animate strokeDashoffset from 12500.4 down to 6250.2.
-  // This ensures the line steadily and visibly GROWS with the user's scroll across the
-  // entire section at a natural reading speed without racing ahead or stalling.
   const { scrollYProgress: lineScrollProgress } = useScroll({
-    target: cardSectionRef,
-    offset: ["start 65%", "end 25%"],
+    target: containerRef,
+    offset: ["start 75%", "end 25%"],
   });
 
   // Responsive spring to ensure smooth scroll-wheel tracking without lag or inertia overshoot
@@ -210,15 +214,15 @@ export const ProfileStory = () => {
     [12500.4, 6250.2]
   );
 
-  // 2. Story Card scroll-driven expansion (exact GSAP from azizkhaldi.com: width 80% -> 100%, borderRadius 34px -> 0px, y 120 -> 0):
+  // 2. Story Card scroll-driven expansion (exact GSAP from azizkhaldi.com: width 80% -> 98%, borderRadius 34px -> 8px, y 120 -> 0):
   const { scrollYProgress: cardProgress } = useScroll({
     target: cardSectionRef,
     offset: ["start 80%", "start 10%"],
   });
 
   // Card dimensions & position reactive to scroll (matching DevTools snapshots)
-  const cardWidth = useTransform(cardProgress, [0, 1], ["80%", "100%"]);
-  const cardRadius = useTransform(cardProgress, [0, 1], ["34px", "0px"]);
+  const cardWidth = useTransform(cardProgress, [0, 1], ["80%", "98%"]);
+  const cardRadius = useTransform(cardProgress, [0, 1], ["34px", "8px"]);
   const cardY = useTransform(cardProgress, [0, 1], [120, 0]);
 
   // 3. Profile Photo scroll-driven expansion (exact GSAP from azizkhaldi.com: width 60% -> 100%, scale 0.95 -> 1.0):
@@ -229,8 +233,6 @@ export const ProfileStory = () => {
 
   const photoWidth = useTransform(photoProgress, [0, 1], ["60%", "100%"]);
   const photoScale = useTransform(photoProgress, [0, 1], [0.95, 1.0]);
-  const photoY = useTransform(photoProgress, [0, 1], [50, 0]);
-  const photoRadius = useTransform(photoProgress, [0, 1], ["20px", "10px"]);
 
   // Marquee text rises up and fades in as card enters
   const marqueeOpacity = useTransform(cardProgress, [0.05, 0.45], [0, 1]);
@@ -296,20 +298,51 @@ export const ProfileStory = () => {
   });
 
   return (
-    <>
+    <div
+      ref={containerRef}
+      className="overflow-hidden -mt-[4rem] w-full relative font-cabinet select-none bg-sec"
+    >
+      {/* 
+        Child 1: Exact animated neon line SVG (#animated-line-path) from DevTools:
+        Positioned as direct child of outer wrapper at z-[35] so it spans continuously 
+        across both the Story section and down into the Services section,
+        sitting ON TOP of bg-main backgrounds (z-[20]) and UNDER interactive content (z-[50])!
+      */}
       <div
-        ref={containerRef}
-        className="overflow-hidden -mt-[4rem] w-full relative font-cabinet select-none bg-sec"
+        className="absolute lg:top-[10rem] top-[25rem] -left-44 lg:left-10 w-full h-full pointer-events-none z-[35]"
       >
-
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 2100 2850"
+          fill="none"
+          preserveAspectRatio="xMidYMid slice"
+          className="w-full min-w-[200vw] md:min-w-[150vw] lg:min-w-full h-auto"
+        >
+          <motion.path
+            id="animated-line-path"
+            d="M2049.4 7.12338C2050.34 7.09245 2051.23 6.69369 2051.88 6.00967C2052.53 5.32571 2052.88 4.41341 2052.86 3.47254C2052.83 2.53168 2052.44 1.63823 2051.75 0.987824C2051.07 0.337364 2050.16 -0.0158818 2049.22 0.000643925C2049.22 0.000643925 2049.22 0.000643925 2049.22 0.000643925C1943.26 1.94307 1840.2 5.90331 1736.44 14.9286C1580.5 35.1176 1395.04 34.2702 1278.58 166.757C1227.87 238.526 1236.8 327.455 1207.7 401.188C1180.83 477.082 1123.39 535.224 1055.61 580.079C1016.79 606.535 979.953 634.166 955.567 675.911C927.749 717.393 946.265 778.123 980.727 808.354C1075.88 894.744 1195.98 932.824 1306.11 986.278C1361.73 1012.48 1416.74 1038.53 1465.3 1075.04C1488.69 1093.15 1510.8 1114.41 1519.8 1140.6C1529.12 1166.7 1519.29 1194.56 1500.7 1217.79C1404.12 1339.78 1268.09 1422.61 1139.05 1511.49C1075.88 1557.11 1005.55 1600.46 966.359 1674.6C923.616 1757.92 996.115 1837.3 1055.35 1883.24C1199.52 1951.53 1354.08 1931.18 1501.68 1955.38C1575.8 1965.1 1650.06 1977.47 1718.74 2004.79C1786.41 2030.3 1851.14 2084.87 1848.19 2160.07C1857.77 2265.2 1741.97 2306.5 1650.44 2305.64C1554.37 2308.8 1458.26 2296.72 1361.83 2287.47C1176.37 2275.98 949.392 2224.12 804.589 2378.02C676.379 2541.45 504.322 2672.42 307.757 2741.09C210.014 2775.13 106.864 2796.58 3.77395 2795.01C2.83192 2794.95 1.90584 2795.27 1.19933 2795.9C0.492818 2796.52 0.0637703 2797.4 0.00655131 2798.35C-0.0506677 2799.29 0.268607 2800.21 0.89412 2800.92C1.51963 2801.63 2.40016 2802.06 3.3419 2802.12C3.3419 2802.12 3.3419 2802.12 3.3419 2802.12C108.263 2804.24 211.744 2783.12 310.615 2749.26C509.168 2680.97 683.528 2549.47 813.527 2385.11C949.697 2239.53 1175.36 2287.99 1360.46 2300.99C1456.84 2310.54 1553.01 2323.05 1651 2320.16C1699.48 2317.99 1750.07 2312.84 1794.89 2288.18C1840.96 2264.57 1865.28 2210.14 1863.58 2160.07C1867.3 2076.9 1794.14 2015.79 1724.76 1989.98C1653.64 1961.52 1578.54 1948.99 1503.79 1938.98C1356.97 1915.39 1194.32 1930.71 1066.23 1869.57C1007.37 1823.57 945.361 1752.48 982.498 1682.27C1017.2 1615.88 1086.61 1571.25 1149.4 1526.47C1277.87 1438.09 1415.69 1354.9 1515.42 1229.34C1535.99 1204.15 1549.65 1167.96 1537.6 1134.63C1526.1 1101.89 1501.37 1079.39 1476.77 1060.11C1425.62 1021.67 1370.11 995.587 1314.1 969.12C1203.78 915.863 1082.67 875.787 994.272 795.03C962.857 765.637 949.342 721.103 972.099 685.095C993.13 648.632 1028.32 621.198 1065.96 595.585C1135.46 549.434 1196.38 487.653 1224.35 407.229C1254.02 328.852 1245.71 240.903 1291.77 176.154C1396.46 53.001 1582.9 47.2325 1737.51 26.2786C1840.75 16.0276 1943.59 10.6447 2049.4 7.12338Z"
+            stroke="#d4f534"
+            strokeWidth="70"
+            opacity="0.95"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            strokeDasharray={12500.4}
+            style={{
+              strokeDashoffset,
+              filter: "drop-shadow(0 0 16px rgba(212, 245, 52, 0.45))",
+            }}
+          />
+        </svg>
+      </div>
 
       {/* 
-        Section 1: #first-story-section Card
+        Child 2: #first-story-section Card
         Scroll-reactive expansion towards full screen!
         Starts at width: 80%, borderRadius: 34px, y: 120px
         Expands to width: 98%, borderRadius: 8px, y: 0px
       */}
-      <div ref={cardSectionRef} className="w-full flex justify-center overflow-hidden">
+      <div ref={cardSectionRef} className="w-full flex justify-center">
         <motion.div
           id="first-story-section"
           className="story-section flex items-center lg:pb-20 pb-10 flex-col justify-start relative text-sec bg-main overflow-hidden shadow-2xl"
@@ -323,38 +356,7 @@ export const ProfileStory = () => {
             willChange: "transform, width, border-radius",
           }}
         >
-          {/* 
-            Exact animated neon line SVG (#animated-line-path) from DevTools:
-            Positioned at z-[30] so it weaves ON TOP of profile-photo (z-[20]) 
-            and UNDER more-about-me (z-[380])!
-          */}
-          <div
-            className="absolute lg:top-[10rem] top-[25rem] -left-44 lg:left-10 w-full h-full pointer-events-none z-[30]"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 2100 2850"
-              fill="none"
-              preserveAspectRatio="xMidYMid slice"
-              className="w-full min-w-[200vw] md:min-w-[150vw] lg:min-w-full h-auto"
-            >
-              <motion.path
-                id="animated-line-path"
-                d="M2049.4 7.12338C2050.34 7.09245 2051.23 6.69369 2051.88 6.00967C2052.53 5.32571 2052.88 4.41341 2052.86 3.47254C2052.83 2.53168 2052.44 1.63823 2051.75 0.987824C2051.07 0.337364 2050.16 -0.0158818 2049.22 0.000643925C2049.22 0.000643925 2049.22 0.000643925 2049.22 0.000643925C1943.26 1.94307 1840.2 5.90331 1736.44 14.9286C1580.5 35.1176 1395.04 34.2702 1278.58 166.757C1227.87 238.526 1236.8 327.455 1207.7 401.188C1180.83 477.082 1123.39 535.224 1055.61 580.079C1016.79 606.535 979.953 634.166 955.567 675.911C927.749 717.393 946.265 778.123 980.727 808.354C1075.88 894.744 1195.98 932.824 1306.11 986.278C1361.73 1012.48 1416.74 1038.53 1465.3 1075.04C1488.69 1093.15 1510.8 1114.41 1519.8 1140.6C1529.12 1166.7 1519.29 1194.56 1500.7 1217.79C1404.12 1339.78 1268.09 1422.61 1139.05 1511.49C1075.88 1557.11 1005.55 1600.46 966.359 1674.6C923.616 1757.92 996.115 1837.3 1055.35 1883.24C1199.52 1951.53 1354.08 1931.18 1501.68 1955.38C1575.8 1965.1 1650.06 1977.47 1718.74 2004.79C1786.41 2030.3 1851.14 2084.87 1848.19 2160.07C1857.77 2265.2 1741.97 2306.5 1650.44 2305.64C1554.37 2308.8 1458.26 2296.72 1361.83 2287.47C1176.37 2275.98 949.392 2224.12 804.589 2378.02C676.379 2541.45 504.322 2672.42 307.757 2741.09C210.014 2775.13 106.864 2796.58 3.77395 2795.01C2.83192 2794.95 1.90584 2795.27 1.19933 2795.9C0.492818 2796.52 0.0637703 2797.4 0.00655131 2798.35C-0.0506677 2799.29 0.268607 2800.21 0.89412 2800.92C1.51963 2801.63 2.40016 2802.06 3.3419 2802.12C3.3419 2802.12 3.3419 2802.12 3.3419 2802.12C108.263 2804.24 211.744 2783.12 310.615 2749.26C509.168 2680.97 683.528 2549.47 813.527 2385.11C949.697 2239.53 1175.36 2287.99 1360.46 2300.99C1456.84 2310.54 1553.01 2323.05 1651 2320.16C1699.48 2317.99 1750.07 2312.84 1794.89 2288.18C1840.96 2264.57 1865.28 2210.14 1863.58 2160.07C1867.3 2076.9 1794.14 2015.79 1724.76 1989.98C1653.64 1961.52 1578.54 1948.99 1503.79 1938.98C1356.97 1915.39 1194.32 1930.71 1066.23 1869.57C1007.37 1823.57 945.361 1752.48 982.498 1682.27C1017.2 1615.88 1086.61 1571.25 1149.4 1526.47C1277.87 1438.09 1415.69 1354.9 1515.42 1229.34C1535.99 1204.15 1549.65 1167.96 1537.6 1134.63C1526.1 1101.89 1501.37 1079.39 1476.77 1060.11C1425.62 1021.67 1370.11 995.587 1314.1 969.12C1203.78 915.863 1082.67 875.787 994.272 795.03C962.857 765.637 949.342 721.103 972.099 685.095C993.13 648.632 1028.32 621.198 1065.96 595.585C1135.46 549.434 1196.38 487.653 1224.35 407.229C1254.02 328.852 1245.71 240.903 1291.77 176.154C1396.46 53.001 1582.9 47.2325 1737.51 26.2786C1840.75 16.0276 1943.59 10.6447 2049.4 7.12338Z"
-                stroke="#d4f534"
-                strokeWidth="70"
-                opacity="0.95"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-                strokeDasharray={12500.4}
-                style={{
-                  strokeDashoffset,
-                  filter: "drop-shadow(0 0 16px rgba(212, 245, 52, 0.45))",
-                }}
-              />
-            </svg>
-          </div>
+          {/* Marquee Container matching DevTools structure */}
           <motion.div
             style={{
               opacity: marqueeOpacity,
@@ -420,6 +422,29 @@ export const ProfileStory = () => {
                         >
                           <Layer2Starburst className="h-16 w-16 lg:h-20 lg:w-20 text-sec" />
                         </motion.div>
+                        <img
+                          alt="green flower"
+                          loading="lazy"
+                          width={900}
+                          height={900}
+                          className="h-16 w-16 lg:h-[8rem] lg:w-[8rem] shrink-0 object-contain"
+                          src="/green-flower.svg"
+                        />
+                      </div>
+
+                      {/* Block 3 */}
+                      <div className="flex items-center gap-8 md:gap-12">
+                        <span className="tracking-tight uppercase">
+                          FULL-STACK DEVELOPER UI &amp; UX DESIGNER.
+                        </span>
+                        <img
+                          alt="green flower"
+                          loading="lazy"
+                          width={900}
+                          height={900}
+                          className="h-16 w-16 lg:h-[8rem] lg:w-[8rem] shrink-0 object-contain"
+                          src="/green-flower.svg"
+                        />
                       </div>
                     </div>
                   ))}
@@ -428,15 +453,14 @@ export const ProfileStory = () => {
             </div>
           </motion.div>
 
-          {/* Profile Photo with Scroll Expansion - slowly grows as user scrolls into view */}
+          {/* Profile Photo with Scroll Expansion */}
           <motion.div
             ref={photoContainerRef}
             className="profile-photo text-sec px-[1rem] md:px-[6.3rem] z-[20] flex flex-col items-center justify-center rounded-lg overflow-hidden mx-auto"
             style={{
               width: photoWidth,
               scale: photoScale,
-              y: photoY,
-              borderRadius: photoRadius,
+              transformOrigin: "center center",
               willChange: "transform, width, scale",
             }}
           >
@@ -452,7 +476,7 @@ export const ProfileStory = () => {
             </div>
           </motion.div>
 
-          {/* More About Me Narrative & Stats (DevTools exact matching: relative z-[380] text-sec py-10 mt-5 px-[1rem] md:px-[6.3rem]) */}
+          {/* More About Me Narrative & Stats */}
           <div className="relative more-about-me z-[380] w-full text-sec py-10 mt-5 px-[1rem] md:px-[6.3rem] cursor-default font-cabinet">
             <div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16">
@@ -562,32 +586,31 @@ export const ProfileStory = () => {
           </div>
         </motion.div>
       </div>
-    </div>
 
       {/* 
-        Section 2: Services / Offerings Section
-        Matching exact DevTools extraction from user:
-        - Headline: "Transforming ideas into exceptional digital experiences through expertise and innovation"
-        - 4 interactive service cards with exact border system, icons, numbers, and hover glow
-        - Pinned horizontal slide on desktop/tablet, stacked column on mobile
-        - Sibling to Story section so position:sticky works without overflow-hidden clipping!
+        Child 3: Services Section
+        - Stacked at z-[20] with light gray bg-main background.
+        - The yellow ribbon (z-[35]) flows seamlessly on top of this background without any horizontal slice cut!
+        - Headline is centered with max-w-3xl.
+        - Cards Slider is full screen width (w-full) without any inner max-w-[1400px] or px-24 container
+          restricting the x-axis, so Card 01 slides smoothly all the way across to the screen edge!
       */}
       <div
         ref={servicesSectionRef}
-        className="bg-main w-full relative font-cabinet select-none"
+        className="w-full relative z-[20] font-cabinet select-none text-sec bg-main"
         style={{ height: isHorizontal ? "260vh" : "auto" }}
       >
         <div
           className={
             isHorizontal
-              ? "sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden py-8"
-              : "relative h-auto w-full py-16 flex flex-col"
+              ? "sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden py-8 z-[50]"
+              : "relative h-auto w-full py-16 flex flex-col z-[50]"
           }
         >
           {/* Section Headline */}
-          <div className="flex flex-col text-left items-center max-w-3xl justify-center mx-auto mb-8 lg:mb-12 px-4 shrink-0">
+          <div className="flex flex-col text-left items-center max-w-3xl justify-center mx-auto mb-8 lg:mb-12 px-4 shrink-0 relative z-[50]">
             <div
-              className="text-sec text-3xl lg:text-4xl font-medium leading-snug text-center"
+              className="text-sec text-3xl lg:text-4xl font-medium leading-[1.1] lg:px-4 px-1 text-center"
               style={{ perspective: "1000px" }}
             >
               <motion.div
@@ -599,10 +622,10 @@ export const ProfileStory = () => {
                 {servicesHeadline.map((word, i) => (
                   <span
                     key={i}
-                    className="inline-block mr-[0.3em]"
+                    className="inline-block mr-[0.3em] overflow-hidden"
                     style={{
-                      lineHeight: 1.25,
-                      clipPath: "polygon(-10% -50%, 110% -50%, 110% 100%, -10% 100%)",
+                      lineHeight: 1,
+                      clipPath: "polygon(0px 0%, 100% 0%, 100% 100%, 0% 100%)",
                     }}
                   >
                     <motion.span
@@ -611,7 +634,7 @@ export const ProfileStory = () => {
                         transformOrigin: "center bottom",
                         transformStyle: "preserve-3d",
                       }}
-                      className="inline-block"
+                      className="inline-block mb-[0.2rem]"
                     >
                       {word}
                     </motion.span>
@@ -621,14 +644,19 @@ export const ProfileStory = () => {
             </div>
           </div>
 
-          {/* 4 Interactive Service Cards Track */}
-          <div className="relative w-full flex items-center overflow-hidden shrink-0">
+          {/* 
+            Cards Slider Track: FULL SCREEN WIDTH
+            No inner max-w-[1400px] or px-24 boundary clipping Card 01 on the left!
+            Cards start with natural gutter (pl-4 sm:pl-8 lg:pl-16) matching Image 1
+            and slide smoothly across the full viewport width!
+          */}
+          <div className="relative w-full flex items-center overflow-visible shrink-0 z-[50]">
             <motion.div
               ref={cardsTrackRef}
               style={{ x: isHorizontal ? cardsX : 0 }}
               className={
                 isHorizontal
-                  ? "flex flex-row w-max pl-6 sm:pl-12 lg:pl-24 pr-6 sm:pr-12 lg:pr-24"
+                  ? "flex flex-row w-max pl-4 sm:pl-8 lg:pl-16 pr-8 sm:pr-12 lg:pr-20"
                   : "flex flex-col w-full px-4 gap-6"
               }
             >
@@ -646,7 +674,8 @@ export const ProfileStory = () => {
                         border-gray-400 
                         p-6 sm:p-8 md:p-10
                         transition-all duration-500 cursor-pointer overflow-hidden
-                        hover:bg-sec/[0.02]
+                        mb-4 lg:mb-0
+                        bg-main
                       `}
                     >
                       <div className="relative flex flex-col justify-between z-10 h-full">
@@ -702,7 +731,7 @@ export const ProfileStory = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

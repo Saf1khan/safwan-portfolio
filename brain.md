@@ -23,5 +23,10 @@
   2. `#first-story-section` (scroll-driven card expansion: expands from 88% floating card to 100% full screen width, border-radius 24px -> 0px)
   3. `.profile-photo` (dedicated scroll trigger: expands from 86% -> 98% width and 0.92 -> 1.0 scale as user scrolls it into view)
   4. `.more-about-me` (z-[380] in front of neon line, 3D word reveal animations, 4+ Years Experience, 30+ Projects Completed)
-  5. Services & Expertise section (4 interactive service cards with custom icons and hover glow)
-
+- Section 7: `Footer.tsx` (Final Page Footer):
+  1. `FooterCurve` top inverted convex oval curve (`scale(1, 0.272)` scroll spring, `bg-main` with `box-shadow: rgba(0, 0, 0, 0.75) 0px 60px 50px`)
+  2. Four link columns: `LINKS`, `SOCIALS`, `LOCAL TIME` (live ticking clock with UTC+5:30), and `VERSION` (`2026 © Edition`)
+  3. Rolling text links (`RollingLink`) with per-character staggered translate hover animation
+  4. Expanding pill action buttons for WhatsApp/Phone and Email with bottom-up accent color fill (`bg-thr` / `#D4F534`)
+  5. Interactive 3D Canvas sphere (`FooterCanvasSphere`) with Three.js MeshPhysicalMaterial, orbiting neon lime ring, and cursor follow lerp
+  6. Giant `SAFWAN` typography in `font-righteous` with staggered entrance animation (`translate(0%, 100%) -> translate(0%, 0%)`) and bottom clipping

@@ -5,33 +5,59 @@ import { motion } from "framer-motion";
 
 const socials = [
   {
-    name: "GitHub",
-    href: "https://github.com/Saf1khan",
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-        />
-      </svg>
-    ),
-  },
-  {
     name: "LinkedIn",
     href: "https://linkedin.com/in/",
     icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c-.97 0-1.75-.79-1.75-1.76s.78-1.75 1.75-1.75 1.75.78 1.75 1.75-.78 1.76-1.75 1.76m1.39 9.74v-8.37H5.07v8.37h2.78z" />
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        className="duration-100 hover:text-sec/70 text-sec lg:text-2xl text-xl transition-colors"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512"
+        height="26"
+        width="26"
+        fill="currentColor"
+      >
+        <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
       </svg>
     ),
   },
   {
-    name: "Twitter / X",
-    href: "https://x.com/",
+    name: "WhatsApp",
+    href: "https://wa.me/",
     icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        className="duration-100 hover:text-sec/70 text-sec lg:text-2xl text-xl transition-colors"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512"
+        height="26"
+        width="26"
+        fill="currentColor"
+      >
+        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+      </svg>
+    ),
+  },
+  {
+    name: "GitHub",
+    href: "https://github.com/Saf1khan",
+    icon: (
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        className="duration-100 hover:text-sec/70 text-sec lg:text-2xl text-xl transition-colors"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 496 512"
+        height="26"
+        width="26"
+        fill="currentColor"
+      >
+        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
       </svg>
     ),
   },
@@ -59,21 +85,28 @@ export const Hero = () => {
   };
 
   return (
-    <section className="hero relative h-screen w-full flex items-center justify-center overflow-hidden z-20 bg-main font-cabinet">
+    <div
+      className="hero relative h-screen flex items-center justify-center overflow-hidden z-20 bg-main font-cabinetGrotesk"
+      itemScope
+      itemType="http://schema.org/Person"
+    >
       {/* Hidden background audio element */}
       <audio ref={audioRef} src="/audio/bg-music.mp3" loop />
 
       {/* Left Social Links & Vertical Line */}
-      <div className="absolute left-0 top-0 h-[80vh] flex flex-col items-center justify-between px-6 md:px-9 pt-20 z-50">
-        <div className="hidden lg:block h-[40vh] w-[1px] bg-sec/30 relative"></div>
-        <div className="flex flex-col gap-6 md:gap-8">
+      <div className="z-50 flex-col flex lg:h-[80vh] h-[85vh] px-5 lg:px-9 pt-[5rem] lg:-mt-3 xl:mt-10 py-5 lg:py-10 items-center left-0 top-0 absolute justify-end lg:justify-between">
+        <div className="item lg:block hidden lg:mb-14 h-[40vh] w-[1px] bg-gray-700 relative">
+          <div className="absolute bottom-0 right-[50%] transform translate-x-[50%] h-[.3rem] bg-black rounded-[50%] w-[.3rem]"></div>
+          <div className="absolute top-0 right-[50%] transform translate-x-[50%] h-[.3rem] bg-black rounded-[50%] w-[.3rem]"></div>
+        </div>
+        <div className="flex item z-50 w-full flex-col gap-6 lg:gap-5 xl:gap-8">
           {socials.map((social) => (
             <a
               key={social.name}
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sec/70 hover:text-sec hover:scale-110 transition-all duration-300"
+              style={{ willChange: "transform", backfaceVisibility: "hidden" }}
               aria-label={social.name}
             >
               {social.icon}
@@ -82,49 +115,92 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Main Title & Personalized Content */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="z-50 text-sec text-center uppercase tracking-tighter px-4 max-w-4xl"
-      >
-        <h2 className="text-[1.4rem] md:text-[1.6rem] font-medium tracking-normal mb-2 text-sec/90 normal-case">
-          Hi! I&apos;m Safwan
-        </h2>
-        <h1 className="text-[2.5rem] sm:text-[3.2rem] md:text-[4.5rem] xl:text-[5.6rem] font-black leading-none">
-          Full-Stack
-        </h1>
-        <h1 className="text-[2.5rem] sm:text-[3.2rem] md:text-[4.5rem] xl:text-[5.6rem] font-black leading-none">
-          Developer
-        </h1>
-        <h3 className="text-sm md:text-base font-semibold tracking-widest text-sec/75 mt-3">
-          Frontend Engineer
-        </h3>
-
-        {/* Experience Highlight */}
-        <p className="mt-4 text-xs md:text-sm normal-case tracking-normal font-normal text-sec/70 max-w-lg mx-auto leading-relaxed">
-          Junior Software Engineer with the{" "}
-          <span className="font-semibold text-sec">Sparklab team</span> at the{" "}
-          <span className="font-semibold text-sec">Udupi office of IndiVillage</span>, crafting interactive and high-performance digital experiences.
-        </p>
-      </motion.div>
-
-      {/* Background Layer with Extracted MP4 Video Asset */}
-      <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
-        <video
-          loop
-          autoPlay
-          playsInline
-          muted
-          className="w-full h-full object-cover opacity-80 mix-blend-multiply"
+      {/* Center Text Container Matching Exact DevTools Positioning */}
+      <div className="flex lg:pl-0 pl-0 lg:-mt-[13rem] -mt-[40rem] flex-col lg:flex-row justify-center items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col item lg:px-0 px-[1rem] text-black z-50 justify-center"
         >
-          <source
-            src="https://azizkhaldi.com/_next/static/media/glassyObj.3c74f580.mp4"
-            type="video/mp4"
-          />
-        </video>
+          <div
+            style={{ clipPath: "polygon(0px 0%, 100% 0%, 100% 100%, 0px 100%)" }}
+            className="words overflow-hidden lg:leading-[4rem] xl:leading-[5.6rem] md:leading-[3.2rem] leading-[2.5rem]"
+          >
+            <h1
+              className="font-cabinetGrotesk text-[1.2rem] xs:text-[1.5rem] sm:text-[1.6rem] md:text-[1.65rem] lg:text-[1.6rem] text-center mb-1 lg:-mb-1 word"
+              itemProp="name"
+            >
+              Hi! i’m Safwan
+            </h1>
+          </div>
+          <div
+            style={{ clipPath: "polygon(0px 0%, 100% 0%, 100% 100%, 0px 100%)" }}
+            className="words overflow-hidden lg:leading-[4rem] xl:leading-[5.6rem] md:leading-[3.2rem] leading-[2.5rem]"
+          >
+            <h1
+              className="font-cabinetGrotesk text-[2.3rem] xs:text-[2.2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4rem] xl:text-[5.4rem] 2xl:text-[6rem] pb-1 text-center word"
+              itemProp="jobTitle"
+            >
+              Full-stack Developer
+            </h1>
+          </div>
+          <div
+            style={{ clipPath: "polygon(0px 0%, 100% 0%, 100% 100%, 0px 100%)" }}
+            className="words overflow-hidden lg:leading-[4rem] xl:leading-[5.6rem] md:leading-[3.2rem] leading-[2.5rem]"
+          >
+            <h1
+              className="font-cabinetGrotesk text-[2.3rem] xs:text-[2.2rem] sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4rem] xl:text-[5.4rem] 2xl:text-[6rem] pb-1 text-center word"
+              itemProp="jobTitle"
+            >
+              UI &amp; UX Designer.
+            </h1>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Right Vertical Rotated Name Badge */}
+      <div
+        className="item absolute hidden font-cabinetGrotesk -mt-10 lg:block -rotate-90 top-[40%] -right-[6.5%] transform -translate-y-1/2 writing-mode-vertical-rl text-orientation-mixed tracking-wider pr-5 text-black/90 pointer-events-none"
+        style={{ transform: "translate(0%, -50%) rotate(-90deg)" }}
+      >
+      </div>
+
+      {/* Scroll Down Indicator */}
+      <h1
+        className="item font-cabinetGrotesk tracking-[1em] lg:text-2xl text-xl cursor-default right-[50%] transform translate-x-[50%] absolute z-[100] bottom-[16%] text-black/80 select-none"
+      >
+        scroll down
+      </h1>
+
+      {/* Liquid 3D Video Background Layer with Reference Site Exact Positioning */}
+      <span className="absolute 2xl:-top-[5.5rem] xl:-top-[5rem] lg:-top-[6rem] top-[16rem] lg:-right-3 -z-10 pointer-events-none">
+        <span className="item relative overflow-hidden w-full h-full block">
+          <span className="item w-full h-[5rem] bg-main absolute -bottom-[8rem] right-0 z-20"></span>
+          <video
+            loop
+            autoPlay
+            playsInline
+            preload="auto"
+            muted
+            className="obj3d w-full h-full object-cover"
+            style={{
+              transformOrigin: "center center",
+              height: "100vh",
+              width: "100vw",
+              backfaceVisibility: "hidden",
+              perspective: 1000,
+              willChange: "transform, opacity",
+            }}
+          >
+            <source
+              src="https://azizkhaldi.com/_next/static/media/glassyObj.3c74f580.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </span>
+      </span>
 
       {/* Audio UI Toggle */}
       <button
@@ -134,7 +210,7 @@ export const Hero = () => {
       >
         Sound [{isPlaying ? "ON" : "OFF"}]
       </button>
-    </section>
+    </div>
   );
 };
 
