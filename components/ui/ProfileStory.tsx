@@ -236,26 +236,43 @@ export const ProfileStory = () => {
   const marqueeOpacity = useTransform(cardProgress, [0.05, 0.45], [0, 1]);
   const marqueeY = useTransform(cardProgress, [0.05, 0.45], [120, 0]);
 
-  // 4. Services Section Pinned Horizontal Scroll (matching DevTools translate(-840px, 0px))
+  // 4. Services Section Pinned Horizontal Scroll
   const servicesSectionRef = useRef<HTMLDivElement>(null);
   const cardsTrackRef = useRef<HTMLDivElement>(null);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [maxScroll, setMaxScroll] = useState(840);
+  const [isHorizontal, setIsHorizontal] = useState(false);
+  const [maxScroll, setMaxScroll] = useState(0);
 
   useEffect(() => {
-    const handleResize = () => {
-      const desktop = window.innerWidth >= 1024;
-      setIsDesktop(desktop);
-      if (cardsTrackRef.current && desktop) {
-        const scrollW = cardsTrackRef.current.scrollWidth;
-        const clientW = window.innerWidth;
-        const diff = scrollW - clientW + 120;
-        setMaxScroll(diff > 0 ? diff : 840);
+    const updateDimensions = () => {
+      const horizontal = window.innerWidth >= 768;
+      setIsHorizontal(horizontal);
+      if (cardsTrackRef.current && horizontal) {
+        // Track width includes padding-left and padding-right
+        const trackWidth = cardsTrackRef.current.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        // Total scroll distance needed so Card 04 rests fully visible on screen
+        const toScroll = Math.max(0, trackWidth - viewportWidth);
+        setMaxScroll(toScroll);
       }
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    updateDimensions();
+    const timer = setTimeout(updateDimensions, 150);
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions();
+    });
+
+    if (cardsTrackRef.current) {
+      resizeObserver.observe(cardsTrackRef.current);
+    }
+    window.addEventListener("resize", updateDimensions);
+
+    return () => {
+      clearTimeout(timer);
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateDimensions);
+    };
   }, []);
 
   const { scrollYProgress: servicesScroll } = useScroll({
@@ -263,13 +280,27 @@ export const ProfileStory = () => {
     offset: ["start start", "end end"],
   });
 
-  const cardsX = useTransform(servicesScroll, [0, 1], [0, -maxScroll]);
+  const smoothServicesScroll = useSpring(servicesScroll, {
+    stiffness: 140,
+    damping: 26,
+    mass: 0.15,
+  });
+
+  const cardsX = useTransform(smoothServicesScroll, (progress) => {
+    if (!isHorizontal || maxScroll <= 0) return 0;
+    // Map progress 0 -> 0.85 to 0 -> -maxScroll
+    // From 0.85 -> 1.0, stay locked at -maxScroll so Card 04 is fully visible
+    // before the page unpins to allow continuing scroll
+    const clampedProgress = Math.min(Math.max(0, progress) / 0.85, 1);
+    return -clampedProgress * maxScroll;
+  });
 
   return (
-    <div
-      ref={containerRef}
-      className="overflow-hidden -mt-[4rem] w-full relative font-cabinet select-none bg-sec"
-    >
+    <>
+      <div
+        ref={containerRef}
+        className="overflow-hidden -mt-[4rem] w-full relative font-cabinet select-none bg-sec"
+      >
 
 
       {/* 
@@ -533,27 +564,30 @@ export const ProfileStory = () => {
           </div>
         </motion.div>
       </div>
+    </div>
 
-      {/* 
-        Section 2: Services / Offerings Section
-        Matching DevTools extraction:
-        - Headline: "Transforming ideas into exceptional digital experiences through expertise and innovation"
-        - 4 interactive service cards with exact border system, icons, numbers, and hover glow
-      */}
       {/* 
         Section 2: Services / Offerings Section
         Matching exact DevTools extraction from user:
         - Headline: "Transforming ideas into exceptional digital experiences through expertise and innovation"
         - 4 interactive service cards with exact border system, icons, numbers, and hover glow
-        - Pinned horizontal slide on desktop (translate(-840px, 0px)), stacked column on mobile
+        - Pinned horizontal slide on desktop/tablet, stacked column on mobile
+        - Sibling to Story section so position:sticky works without overflow-hidden clipping!
       */}
       <div
         ref={servicesSectionRef}
-        className="bg-main w-full relative lg:h-[220vh] h-auto font-cabinet"
+        className="bg-main w-full relative font-cabinet select-none"
+        style={{ height: isHorizontal ? "260vh" : "auto" }}
       >
-        <div className="lg:sticky lg:top-0 lg:h-screen h-auto w-full flex flex-col justify-center overflow-hidden py-16 lg:py-0">
+        <div
+          className={
+            isHorizontal
+              ? "sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden py-8"
+              : "relative h-auto w-full py-16 flex flex-col"
+          }
+        >
           {/* Section Headline */}
-          <div className="flex flex-col text-left items-center max-w-3xl justify-center mx-auto mb-10 lg:mb-16 px-4">
+          <div className="flex flex-col text-left items-center max-w-3xl justify-center mx-auto mb-8 lg:mb-12 px-4 shrink-0">
             <div
               className="text-sec text-3xl lg:text-4xl font-medium leading-[1.1] text-center"
               style={{ perspective: "1000px" }}
@@ -591,86 +625,91 @@ export const ProfileStory = () => {
           </div>
 
           {/* 4 Interactive Service Cards Track */}
-          <div className="relative lg:h-[500px] h-auto w-full flex items-center overflow-hidden">
-            <div className="lg:absolute relative left-0 top-0 w-full h-full flex items-center">
-              <motion.div
-                ref={cardsTrackRef}
-                style={{ x: isDesktop ? cardsX : 0 }}
-                className="flex lg:flex-row flex-col w-full lg:w-max px-4 sm:px-8 lg:px-20"
-              >
-                {servicesData.map((service, index) => {
-                  const isLast = index === servicesData.length - 1;
-                  return (
-                    <div key={service.number} className="group relative shrink-0">
-                      <div
-                        className={`
-                          relative text-sec 
-                          w-full sm:w-[350px] md:w-[450px] lg:w-[480px]
-                          h-auto sm:h-[350px] md:h-[450px] lg:h-[480px]
-                          border-t border-b border-l border-r
-                          ${!isLast ? "md:border-r-0" : "border-r"}
-                          border-gray-400 
-                          p-6 sm:p-8 md:p-10
-                          transition-all duration-500 cursor-pointer overflow-hidden
-                          mb-4 lg:mb-0
-                          hover:bg-sec/[0.02]
-                        `}
-                      >
-                        <div className="relative flex flex-col justify-between z-10 h-full">
-                          <div className="flex items-start justify-between mb-4 sm:mb-6">
-                            <div className="flex items-center gap-3 sm:gap-4">
-                              <span className="text-sec absolute -top-3 sm:-top-5 -right-3 sm:-right-5 text-base sm:text-lg md:text-2xl font-light">
-                                {service.number}
-                              </span>
-                              <div
-                                className="
-                                  transition-all bg-thr 
-                                  h-16 w-16 sm:h-18 sm:w-18 md:h-20 md:w-20
-                                  rounded-full flex items-center justify-center duration-500
-                                  text-sec/60 group-hover:text-sec group-hover:scale-105
-                                "
-                              >
-                                {service.icon}
-                              </div>
+          <div className="relative w-full flex items-center overflow-hidden shrink-0">
+            <motion.div
+              ref={cardsTrackRef}
+              style={{ x: isHorizontal ? cardsX : 0 }}
+              className={
+                isHorizontal
+                  ? "flex flex-row w-max pl-6 sm:pl-12 lg:pl-24 pr-6 sm:pr-12 lg:pr-24"
+                  : "flex flex-col w-full px-4 gap-6"
+              }
+            >
+              {servicesData.map((service, index) => {
+                const isLast = index === servicesData.length - 1;
+                return (
+                  <div key={service.number} className="group relative shrink-0">
+                    <div
+                      className={`
+                        relative text-sec 
+                        w-[320px] sm:w-[380px] md:w-[440px] lg:w-[480px]
+                        h-[360px] sm:h-[400px] md:h-[440px] lg:h-[480px]
+                        border-t border-b border-l
+                        ${isLast ? "border-r" : "border-r md:border-r-0"}
+                        border-gray-400 
+                        p-6 sm:p-8 md:p-10
+                        transition-all duration-500 cursor-pointer overflow-hidden
+                        hover:bg-sec/[0.02]
+                      `}
+                    >
+                      <div className="relative flex flex-col justify-between z-10 h-full">
+                        <div className="flex items-start justify-between mb-4 sm:mb-6">
+                          <div className="flex items-center gap-3 sm:gap-4">
+                            <span className="text-sec absolute -top-3 sm:-top-5 -right-3 sm:-right-5 text-base sm:text-lg md:text-2xl font-light">
+                              {service.number}
+                            </span>
+                            <div
+                              className="
+                                transition-all bg-thr 
+                                h-16 w-16 sm:h-18 sm:w-18 md:h-20 md:w-20
+                                rounded-full flex items-center justify-center duration-500
+                                text-sec/60 group-hover:text-sec group-hover:scale-105
+                              "
+                            >
+                              {service.icon}
                             </div>
                           </div>
-                          <h3
-                            className="
-                              text-xl sm:text-2xl md:text-3xl lg:text-4xl 
-                              font-bold my-3 w-full lg:w-[70%] leading-tight
-                              transition-colors duration-500
-                              text-sec/90 group-hover:text-sec
-                            "
-                          >
-                            {service.title}
-                          </h3>
-                          <div className="flex flex-wrap gap-2 mb-4 sm:mb-6"></div>
-                          <div className="pt-4 sm:pt-6 border-t border-sec/10">
-                            <p className="text-sec/70 text-lg leading-relaxed">
-                              {service.description}
-                            </p>
-                          </div>
                         </div>
-                        <div
+                        <h3
                           className="
-                            absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32
-                            transition-opacity duration-500
-                            opacity-0 group-hover:opacity-100
-                            pointer-events-none
+                            text-xl sm:text-2xl md:text-3xl lg:text-4xl 
+                            font-bold my-3 w-full lg:w-[70%] leading-tight
+                            transition-colors duration-500
+                            text-sec/90 group-hover:text-sec
                           "
                         >
-                          <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-thr/10 to-transparent rounded-2xl"></div>
+                          {service.title}
+                        </h3>
+                        <div className="flex flex-wrap gap-2 mb-4 sm:mb-6"></div>
+                        <div className="pt-4 sm:pt-6 border-t border-sec/10">
+                          <p className="text-sec/70 text-base sm:text-lg leading-relaxed line-clamp-4 sm:line-clamp-none">
+                            {service.description}
+                          </p>
                         </div>
                       </div>
+                      <div
+                        className="
+                          absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32
+                          transition-opacity duration-500
+                          opacity-0 group-hover:opacity-100
+                          pointer-events-none
+                        "
+                      >
+                        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-thr/10 to-transparent rounded-2xl"></div>
+                      </div>
                     </div>
-                  );
-                })}
-              </motion.div>
-            </div>
+                  </div>
+                );
+              })}
+            </motion.div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Continuing scroll area / buffer below Services so unpinning allows smooth continuing page scroll */}
+      <div className="w-full h-[40vh] bg-main" />
+    </>
+
   );
 };
 
