@@ -702,11 +702,7 @@ export const ProfileStory = () => {
           </div>
         </div>
       </div>
-
-      {/* Continuing scroll area / buffer below Services so unpinning allows smooth continuing page scroll */}
-      <div className="w-full h-[40vh] bg-main" />
     </>
-
   );
 };
 
