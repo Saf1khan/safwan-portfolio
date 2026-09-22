@@ -458,7 +458,7 @@ export const ProfileStory = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16">
                 {/* Left Headline */}
                 <div
-                  className="text-3xl lg:text-4xl font-medium"
+                  className="text-3xl lg:text-4xl font-medium leading-[1.25]"
                   style={{ perspective: "1000px" }}
                 >
                   <motion.div
@@ -470,11 +470,11 @@ export const ProfileStory = () => {
                     {narrativeText.map((word, i) => (
                       <span
                         key={i}
-                        className="inline-block overflow-hidden mr-[0.3em]"
+                        className="inline-block overflow-hidden mr-[0.3em] pt-2 -mt-2"
                         style={{
-                          lineHeight: 0.8,
+                          lineHeight: 1.25,
                           clipPath:
-                            "polygon(0px 0%, 100% 0%, 100% 100%, 0% 100%)",
+                            "polygon(0px -30%, 100% -30%, 100% 100%, 0% 100%)",
                         }}
                       >
                         <motion.span
@@ -483,7 +483,7 @@ export const ProfileStory = () => {
                             transformOrigin: "center bottom",
                             transformStyle: "preserve-3d",
                           }}
-                          className="inline-block mb-[0.2rem]"
+                          className="inline-block"
                         >
                           {word}
                         </motion.span>
@@ -510,11 +510,11 @@ export const ProfileStory = () => {
                       {storyParagraph.map((word, i) => (
                         <span
                           key={i}
-                          className="inline-block overflow-hidden mr-[0.3em]"
+                          className="inline-block overflow-hidden mr-[0.3em] pt-1 -mt-1"
                           style={{
-                            lineHeight: 0.8,
+                            lineHeight: 1.3,
                             clipPath:
-                              "polygon(0px 0%, 100% 0%, 100% 100%, 0% 100%)",
+                              "polygon(0px -30%, 100% -30%, 100% 100%, 0% 100%)",
                           }}
                         >
                           <motion.span
@@ -523,7 +523,7 @@ export const ProfileStory = () => {
                               transformOrigin: "center bottom",
                               transformStyle: "preserve-3d",
                             }}
-                            className="inline-block mb-[0.2rem]"
+                            className="inline-block"
                           >
                             {word}
                           </motion.span>
@@ -589,7 +589,7 @@ export const ProfileStory = () => {
           {/* Section Headline */}
           <div className="flex flex-col text-left items-center max-w-3xl justify-center mx-auto mb-8 lg:mb-12 px-4 shrink-0">
             <div
-              className="text-sec text-3xl lg:text-4xl font-medium leading-[1.1] text-center"
+              className="text-sec text-3xl lg:text-4xl font-medium leading-[1.25] text-center"
               style={{ perspective: "1000px" }}
             >
               <motion.div
@@ -601,11 +601,11 @@ export const ProfileStory = () => {
                 {servicesHeadline.map((word, i) => (
                   <span
                     key={i}
-                    className="inline-block overflow-hidden mr-[0.3em]"
+                    className="inline-block overflow-hidden mr-[0.3em] pt-2 -mt-2"
                     style={{
-                      lineHeight: 1,
+                      lineHeight: 1.25,
                       clipPath:
-                        "polygon(0px 0%, 100% 0%, 100% 100%, 0% 100%)",
+                        "polygon(0px -30%, 100% -30%, 100% 100%, 0% 100%)",
                     }}
                   >
                     <motion.span
@@ -614,7 +614,7 @@ export const ProfileStory = () => {
                         transformOrigin: "center bottom",
                         transformStyle: "preserve-3d",
                       }}
-                      className="inline-block mb-[0.2rem]"
+                      className="inline-block"
                     >
                       {word}
                     </motion.span>
