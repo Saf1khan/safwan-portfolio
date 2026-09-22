@@ -169,11 +169,12 @@ const servicesData = [
 ];
 
 const wordAnimation: Variants = {
-  hidden: { y: 24, opacity: 0 },
+  hidden: { y: "110%", rotateX: -15, opacity: 0 },
   visible: {
     y: 0,
+    rotateX: 0,
     opacity: 1,
-    transition: { duration: 0.6, ease: [0.33, 1, 0.68, 1] },
+    transition: { duration: 0.8, ease: [0.33, 1, 0.68, 1] },
   },
 };
 
@@ -458,6 +459,7 @@ export const ProfileStory = () => {
                 {/* Left Headline */}
                 <div
                   className="text-3xl lg:text-4xl font-medium leading-snug"
+                  style={{ perspective: "1000px" }}
                 >
                   <motion.div
                     initial="hidden"
@@ -469,9 +471,17 @@ export const ProfileStory = () => {
                       <span
                         key={i}
                         className="inline-block mr-[0.3em]"
+                        style={{
+                          lineHeight: 1.25,
+                          clipPath: "polygon(-10% -50%, 110% -50%, 110% 100%, -10% 100%)",
+                        }}
                       >
                         <motion.span
                           variants={wordAnimation}
+                          style={{
+                            transformOrigin: "center bottom",
+                            transformStyle: "preserve-3d",
+                          }}
                           className="inline-block"
                         >
                           {word}
@@ -485,6 +495,7 @@ export const ProfileStory = () => {
                 <div className="flex items-center">
                   <div
                     className="text-lg md:text-xl leading-relaxed"
+                    style={{ perspective: "1000px" }}
                   >
                     <motion.div
                       initial="hidden"
@@ -499,9 +510,17 @@ export const ProfileStory = () => {
                         <span
                           key={i}
                           className="inline-block mr-[0.3em]"
+                          style={{
+                            lineHeight: 1.3,
+                            clipPath: "polygon(-10% -50%, 110% -50%, 110% 100%, -10% 100%)",
+                          }}
                         >
                           <motion.span
                             variants={wordAnimation}
+                            style={{
+                              transformOrigin: "center bottom",
+                              transformStyle: "preserve-3d",
+                            }}
                             className="inline-block"
                           >
                             {word}
@@ -569,6 +588,7 @@ export const ProfileStory = () => {
           <div className="flex flex-col text-left items-center max-w-3xl justify-center mx-auto mb-8 lg:mb-12 px-4 shrink-0">
             <div
               className="text-sec text-3xl lg:text-4xl font-medium leading-snug text-center"
+              style={{ perspective: "1000px" }}
             >
               <motion.div
                 initial="hidden"
@@ -580,9 +600,17 @@ export const ProfileStory = () => {
                   <span
                     key={i}
                     className="inline-block mr-[0.3em]"
+                    style={{
+                      lineHeight: 1.25,
+                      clipPath: "polygon(-10% -50%, 110% -50%, 110% 100%, -10% 100%)",
+                    }}
                   >
                     <motion.span
                       variants={wordAnimation}
+                      style={{
+                        transformOrigin: "center bottom",
+                        transformStyle: "preserve-3d",
+                      }}
                       className="inline-block"
                     >
                       {word}
