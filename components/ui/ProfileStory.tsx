@@ -249,11 +249,26 @@ export const ProfileStory = () => {
       const horizontal = window.innerWidth >= 768;
       setIsHorizontal(horizontal);
       if (cardsTrackRef.current && horizontal) {
-        // Track width includes padding-left and padding-right
-        const trackWidth = cardsTrackRef.current.scrollWidth;
+        const track = cardsTrackRef.current;
+        const computedStyle = window.getComputedStyle(track);
+        const paddingLeft = parseFloat(computedStyle.paddingLeft) || 64;
+        const paddingRight = parseFloat(computedStyle.paddingRight) || 80;
+
+        let childrenWidth = 0;
+        for (let i = 0; i < track.children.length; i++) {
+          childrenWidth += (track.children[i] as HTMLElement).offsetWidth;
+        }
+
+        const trackWidth = Math.max(
+          track.scrollWidth,
+          childrenWidth + paddingLeft + paddingRight
+        );
         const viewportWidth = window.innerWidth;
-        // Total scroll distance needed so Card 04 rests fully visible on screen
-        const toScroll = Math.max(0, trackWidth - viewportWidth);
+        const cardWidth = (track.children[0] as HTMLElement)?.offsetWidth || 480;
+        const centerOffset = Math.max(0, (viewportWidth - cardWidth) / 2);
+        const minScrollToCenterCard4 = Math.max(0, (track.children.length - 1) * cardWidth - centerOffset + paddingLeft);
+        // Total scroll distance needed so Card 04 rests fully visible and centered on screen
+        const toScroll = Math.max(trackWidth - viewportWidth + 140, minScrollToCenterCard4);
         setMaxScroll(toScroll);
       }
     };
@@ -282,26 +297,22 @@ export const ProfileStory = () => {
     offset: ["start start", "end end"],
   });
 
-  const smoothServicesScroll = useSpring(servicesScroll, {
-    stiffness: 140,
-    damping: 26,
-    mass: 0.15,
-  });
-
-  const cardsX = useTransform(smoothServicesScroll, (progress) => {
+  const cardsX = useTransform(servicesScroll, (progress) => {
     if (!isHorizontal || maxScroll <= 0) return 0;
-    // Map progress 0 -> 0.85 to 0 -> -maxScroll
-    // From 0.85 -> 1.0, stay locked at -maxScroll so Card 04 is fully visible
-    // before the page unpins to allow continuing scroll
-    const clampedProgress = Math.min(Math.max(0, progress) / 0.85, 1);
+    // Map progress 0 -> 0.70 to 0 -> -maxScroll
+    // By progress = 0.70, Card 04 is 100% fully visible and settled in the viewport
+    // From 0.70 -> 1.0, stay locked at -maxScroll so Card 04 can be comfortably read
+    // before the sticky section unpins and the page scrolls up to WorksSection
+    const clampedProgress = Math.min(Math.max(0, progress) / 0.70, 1);
     return -clampedProgress * maxScroll;
   });
 
   return (
-    <div
-      ref={containerRef}
-      className="overflow-hidden -mt-[4rem] w-full relative font-cabinet select-none bg-sec"
-    >
+    <>
+      <div
+        ref={containerRef}
+        className="overflow-x-clip -mt-[4rem] w-full relative font-cabinet select-none bg-sec"
+      >
       {/* 
         Child 1: Exact animated neon line SVG (#animated-line-path) from DevTools:
         Positioned as direct child of outer wrapper at z-[35] so it spans continuously 
@@ -586,20 +597,19 @@ export const ProfileStory = () => {
           </div>
         </motion.div>
       </div>
+    </div>
 
-      {/* 
-        Child 3: Services Section
-        - Stacked at z-[20] with light gray bg-main background.
-        - The yellow ribbon (z-[35]) flows seamlessly on top of this background without any horizontal slice cut!
-        - Headline is centered with max-w-3xl.
-        - Cards Slider is full screen width (w-full) without any inner max-w-[1400px] or px-24 container
-          restricting the x-axis, so Card 01 slides smoothly all the way across to the screen edge!
-      */}
-      <div
-        ref={servicesSectionRef}
-        className="w-full relative z-[20] font-cabinet select-none text-sec bg-main"
-        style={{ height: isHorizontal ? "260vh" : "auto" }}
-      >
+    {/* 
+      Section 2: Services Section
+      - Top-level sibling outside containerRef so position:sticky works without being broken by overflow-hidden!
+      - Height: 350vh provides ample pinned scroll distance.
+      - Headline and cards stay sticky centered at top-0 while cards slide horizontally.
+    */}
+    <div
+      ref={servicesSectionRef}
+      className="w-full relative z-[20] font-cabinet select-none text-sec bg-main"
+      style={{ height: isHorizontal ? "350vh" : "auto" }}
+    >
         <div
           className={
             isHorizontal
@@ -731,7 +741,7 @@ export const ProfileStory = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
