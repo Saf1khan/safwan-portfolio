@@ -143,8 +143,8 @@ export const Navbar = () => {
 
   const navLinks = [
     { text: "Home", href: "/" },
-    { text: "About", href: "#about" },
-    { text: "Works", href: "#works" },
+    { text: "About", href: "/about" },
+    { text: "Works", href: "/#works" },
   ];
 
   return (
