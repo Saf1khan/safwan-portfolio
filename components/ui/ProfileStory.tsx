@@ -6,6 +6,10 @@ import {
   useScroll,
   useTransform,
   useSpring,
+  useVelocity,
+  useMotionValue,
+  useAnimationFrame,
+  wrap,
   type Variants,
 } from "framer-motion";
 
@@ -238,6 +242,40 @@ export const ProfileStory = () => {
   const marqueeOpacity = useTransform(cardProgress, [0.05, 0.45], [0, 1]);
   const marqueeY = useTransform(cardProgress, [0.05, 0.45], [120, 0]);
 
+  // Marquee scroll-driven velocity and momentum (matching AboutMarquee)
+  const marqueeBaseX = useMotionValue(-50);
+  const { scrollY: globalScrollY } = useScroll();
+  const marqueeScrollVelocity = useVelocity(globalScrollY);
+  const smoothMarqueeVelocity = useSpring(marqueeScrollVelocity, {
+    damping: 50,
+    stiffness: 300,
+  });
+  const marqueeVelocityFactor = useTransform(smoothMarqueeVelocity, [0, 1000], [0, 5], {
+    clamp: false,
+  });
+  const marqueeDirectionFactor = useRef<number>(1);
+  const baseMarqueeVelocity = 0.9;
+
+  useAnimationFrame((_t, delta) => {
+    const dt = delta / 1000;
+    const vFactor = marqueeVelocityFactor.get();
+
+    if (vFactor < -0.1) {
+      marqueeDirectionFactor.current = -1;
+    } else if (vFactor > 0.1) {
+      marqueeDirectionFactor.current = 1;
+    }
+
+    const scrollBoost = Math.abs(vFactor) * 1.4;
+    const moveBy = marqueeDirectionFactor.current * (baseMarqueeVelocity + scrollBoost) * dt;
+    marqueeBaseX.set(wrap(-50, 0, marqueeBaseX.get() + moveBy));
+  });
+
+  const marqueeTransformX = useTransform(
+    marqueeBaseX,
+    (val) => `translate(${val.toFixed(4)}%, 0%) translate3d(0px, 0px, 0px)`
+  );
+
   // 4. Services Section Pinned Horizontal Scroll
   const servicesSectionRef = useRef<HTMLDivElement>(null);
   const cardsTrackRef = useRef<HTMLDivElement>(null);
@@ -383,12 +421,7 @@ export const ProfileStory = () => {
                 }}
               >
                 <motion.div
-                  animate={{ x: ["0%", "-50%"] }}
-                  transition={{
-                    repeat: Infinity,
-                    ease: "linear",
-                    duration: 25,
-                  }}
+                  style={{ transform: marqueeTransformX, willChange: "transform" }}
                   className="flex items-center gap-10 whitespace-nowrap w-max"
                 >
                   {[1, 2].map((loopKey) => (

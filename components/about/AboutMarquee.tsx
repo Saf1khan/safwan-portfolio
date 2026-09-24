@@ -1,7 +1,16 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useVelocity,
+  useSpring,
+  useMotionValue,
+  useTransform,
+  useAnimationFrame,
+  wrap,
+} from "framer-motion";
 
 // Starburst Layer_2 SVG matching reference site
 const Layer2Starburst = ({ className }: { className?: string }) => (
@@ -29,6 +38,44 @@ const Layer2Starburst = ({ className }: { className?: string }) => (
 );
 
 export default function AboutMarquee() {
+  const baseX = useMotionValue(-50);
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 300,
+  });
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
+    clamp: false,
+  });
+  const directionFactor = useRef<number>(1);
+
+  // Base cruising velocity in % per second (gentle, readable, elegant)
+  const baseVelocity = 0.9;
+
+  useAnimationFrame((_t, delta) => {
+    const dt = delta / 1000;
+    const vFactor = velocityFactor.get();
+
+    // Flip direction based on scroll velocity sign
+    if (vFactor < -0.1) {
+      directionFactor.current = -1;
+    } else if (vFactor > 0.1) {
+      directionFactor.current = 1;
+    }
+
+    // Calm base drift + smooth momentum from scroll velocity
+    const scrollBoost = Math.abs(vFactor) * 1.4;
+    const moveBy = directionFactor.current * (baseVelocity + scrollBoost) * dt;
+
+    baseX.set(wrap(-50, 0, baseX.get() + moveBy));
+  });
+
+  const transformX = useTransform(
+    baseX,
+    (val) => `translate(${val.toFixed(4)}%, 0%) translate3d(0px, 0px, 0px)`
+  );
+
   return (
     <div className="item font-semibold relative w-full overflow-hidden text-[3rem] md:text-[7rem] lg:text-[8rem] h-full lg:py-28 py-20 font-cabinet select-none">
       <div className="w-full overflow-hidden flex items-center justify-center">
@@ -38,15 +85,10 @@ export default function AboutMarquee() {
             clipPath: "polygon(0px 0%, 100% 0%, 100% 100%, 0% 100%)",
           }}
         >
-          {/* Continuous automatic infinite marquee */}
+          {/* Scroll-responsive infinite marquee */}
           <motion.div
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{
-              repeat: Infinity,
-              ease: "linear",
-              duration: 25,
-            }}
-            className="flex items-center gap-10 whitespace-nowrap w-max will-change-transform"
+            style={{ transform: transformX, willChange: "transform" }}
+            className="flex items-center gap-10 whitespace-nowrap w-max"
           >
             {[1, 2].map((loopKey) => (
               <div
