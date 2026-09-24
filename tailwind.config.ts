@@ -15,7 +15,7 @@ const config: Config = {
       fontFamily: {
         cabinet: ['"Cabinet Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
         cabinetGrotesk: ['"Cabinet Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
-        righteous: ['"Cabinet Grotesk"', "ui-sans-serif"], 
+        righteous: ['"Righteous"', "cursive", "sans-serif"], 
       },
       spacing: { "section-gap": "2.5rem" },
       zIndex: { "60": "60" },

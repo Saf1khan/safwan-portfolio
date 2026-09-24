@@ -1,3 +1,4 @@
+import CurveEntrance from "@/components/ui/CurveEntrance";
 import Navbar from "@/components/ui/Navbar";
 import Hero from "@/components/ui/Hero";
 import HomeIntro from "@/components/ui/HomeIntro";
@@ -10,6 +11,7 @@ import Footer from "@/components/ui/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen w-full relative bg-main">
+      <CurveEntrance />
       <Navbar />
       <Hero />
       <HomeIntro />
