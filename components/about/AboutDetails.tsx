@@ -67,7 +67,7 @@ export default function AboutDetails() {
   return (
     <div
       ref={containerRef}
-      className="h-auto md:h-[100vh] item flex md:flex-row flex-col w-full font-cabinetGrotesk gap-10 pt-10 md:text-lg text-base md:px-[2rem] px-[1rem] relative"
+      className="h-auto md:min-h-[100vh] item flex md:flex-row flex-col w-full font-cabinetGrotesk gap-10 pt-10 md:text-lg text-base md:px-[2rem] px-[1rem] relative"
     >
       {/* Left Column: 3 Paragraphs with 3D Word Reveal */}
       <div className="w-full md:w-[50%] flex flex-col gap-6 text-lg md:text-xl text-gray-600 leading-relaxed font-cabinetGrotesk">
@@ -168,7 +168,7 @@ export default function AboutDetails() {
         {/* Right Column: Parallax Image Container */}
         <div
           ref={imageContainerRef}
-          className="relative overflow-hidden h-[60vh] md:h-[90vh] object-cover w-full md:w-[50%] rounded-md bg-neutral-200 shadow-xl"
+          className="relative overflow-hidden h-[60vh] md:h-full md:min-h-[550px] object-cover w-full md:w-[50%] rounded-md bg-neutral-200 shadow-xl"
         >
           <motion.img
             loading="lazy"
