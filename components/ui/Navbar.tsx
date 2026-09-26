@@ -47,13 +47,24 @@ const BurgerDrawer = ({
   setIsOpen: (open: boolean) => void;
   links: { text: string; href: string }[];
 }) => {
+  const [drawerWidth, setDrawerWidth] = useState(420);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      setDrawerWidth(Math.min(window.innerWidth - 24, 420));
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
   return (
     <motion.div
-      className="fixed shadow-lg lg:top-9 top-4 right-3 lg:right-5 z-[70] bg-sec overflow-hidden flex items-center justify-center shadow-2xl"
+      className="fixed shadow-lg lg:top-9 top-4 right-3 lg:right-5 z-[70] bg-sec overflow-hidden flex items-center justify-center shadow-2xl max-w-[calc(100vw-1.5rem)]"
       initial={false}
       animate={{
-        width: isOpen ? "min(90vw, 420px)" : "3.5rem",
-        height: isOpen ? "auto" : "3.5rem",
+        width: isOpen ? drawerWidth : 56,
+        height: isOpen ? "auto" : 56,
         borderRadius: "1.5rem",
         backgroundColor: isOpen ? "#1f1f1f" : "#1E1E1E",
       }}
