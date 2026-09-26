@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function CurveEntrance() {
+interface CurveEntranceProps {
+  text?: string;
+}
+
+export default function CurveEntrance({ text = "hello" }: CurveEntranceProps) {
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({
     width: 0,
     height: 0,
@@ -79,7 +83,7 @@ export default function CurveEntrance() {
             <div className="flex items-center gap-3 md:gap-4 px-6 py-3">
               <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#D4F534] inline-block animate-pulse shadow-[0_0_12px_#D4F534]" />
               <span className="font-righteous text-white text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wider lowercase first-letter:capitalize">
-                hello
+                {text}
               </span>
             </div>
           </motion.div>

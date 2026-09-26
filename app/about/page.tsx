@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import CurveEntrance from "@/components/ui/CurveEntrance";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import AboutHero from "@/components/about/AboutHero";
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="min-h-screen w-full relative bg-main flex flex-col justify-between">
+      <CurveEntrance text="about" />
       <div className="aboutMe pb-44 overflow-hidden">
         <Navbar />
         <AboutHero />
