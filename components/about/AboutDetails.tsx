@@ -61,7 +61,7 @@ export default function AboutDetails() {
     offset: ["start end", "end start"],
   });
 
-  const rawImageY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+  const rawImageY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const imageY = useSpring(rawImageY, { stiffness: 100, damping: 25 });
 
   return (
@@ -168,17 +168,17 @@ export default function AboutDetails() {
         {/* Right Column: Parallax Image Container */}
         <div
           ref={imageContainerRef}
-          className="relative overflow-hidden h-[60vh] md:h-full md:min-h-[550px] object-cover w-full md:w-[50%] rounded-md bg-neutral-200 shadow-xl"
+          className="relative overflow-hidden h-[500px] sm:h-[550px] md:h-full md:min-h-[550px] w-full md:w-[50%] rounded-md bg-neutral-900 shadow-xl"
         >
           <motion.img
             loading="lazy"
             decoding="async"
-            src="/image_6103ab.png"
+            src="/safwan-about.jpg"
             alt="Safwan Khan - Full-Stack Developer"
-            className="scale-125 object-cover absolute inset-0 w-full h-full"
+            className="object-cover object-top absolute inset-0 w-full h-full"
             style={{
               y: imageY,
-              scale: 1.25,
+              scale: 1.08,
             }}
           />
         </div>
