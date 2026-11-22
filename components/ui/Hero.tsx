@@ -194,7 +194,7 @@ export const Hero = () => {
             }}
           >
             <source
-              src="https://azizkhaldi.com/_next/static/media/glassyObj.3c74f580.mp4"
+              src="/videos/glassyObj.mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.
