@@ -164,7 +164,7 @@ export const Navbar = () => {
         {/* Logo */}
         <Link href="/">
           <img
-            className="item h-[1.8rem] z-50 w-[1.7rem] lg:w-[1.9rem] lg:h-[2.3rem] cursor-pointer object-contain"
+            className="item h-[1.65rem] lg:h-[1.85rem] w-auto z-50 cursor-pointer object-contain transition-transform duration-200 hover:scale-105"
             src="/logo.png"
             alt="Logo"
           />
