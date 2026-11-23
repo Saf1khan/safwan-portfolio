@@ -205,7 +205,7 @@ export const Hero = () => {
       {/* Audio UI Toggle */}
       <button
         onClick={toggleAudio}
-        className="fixed bottom-8 right-8 z-50 mix-blend-difference text-white font-mono text-xs md:text-sm tracking-wider uppercase px-4 py-2 rounded-full border border-white/40 hover:border-white hover:scale-105 transition-all duration-300 backdrop-blur-sm cursor-pointer"
+        className="absolute bottom-8 right-8 z-50 mix-blend-difference text-white font-mono text-xs md:text-sm tracking-wider uppercase px-4 py-2 rounded-full border border-white/40 hover:border-white hover:scale-105 transition-all duration-300 backdrop-blur-sm cursor-pointer"
         aria-label="Toggle background audio"
       >
         Sound [{isPlaying ? "ON" : "OFF"}]

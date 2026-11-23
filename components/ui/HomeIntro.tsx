@@ -223,7 +223,7 @@ export const HomeIntro = () => {
       </div>
 
       {/* Sub-bar: Scroll to Explore / My Short Story */}
-      <div className="flex overflow-hidden justify-between items-center text-sm text-main px-4 w-full max-w-5xl">
+      <div className="flex overflow-hidden justify-between items-center text-sm text-main px-4 w-full max-w-5xl pb-6">
         <div className="flex items-center gap-2">
           <svg
             fill="none"
@@ -242,9 +242,6 @@ export const HomeIntro = () => {
         </div>
         <span>My Short Story</span>
       </div>
-
-      {/* Section Bottom Divider Line */}
-      <div className="w-full z-[9999] h-[1px] bg-main/30"></div>
     </section>
   );
 };
